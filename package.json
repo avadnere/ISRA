@@ -1,0 +1,24 @@
+{
+  "name": "isra",
+  "version": "1.0.0",
+  "description": "Instruction Service Report Application ",
+  "main": "app.js",
+  "dependencies": {
+    "bcrypt": "^3.0.5",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.2",
+    "jquery": "^3.4.0",
+    "jsdom": "^14.0.0",
+    "mongodb": "^3.2.2",
+    "util": "^0.11.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

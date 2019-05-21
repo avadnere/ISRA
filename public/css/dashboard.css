@@ -1,0 +1,833 @@
+@font-face {
+    font-family: "Trade_Gothic";
+    src: url("../font/tradeGothic.ttf");
+}
+
+.container-fluid {
+    padding: 1%;
+    margin: 0px !important;
+    padding-top: 0px;
+    font-family: "Trade_Gothic";
+    src: url("./tradeGothic.ttf");
+}
+.logo {
+    height: 100% !important;
+    width: 90% !important;
+}
+
+/*<!-------------------------Nav BAR ------------------------------->*/
+
+.nav-title {
+    padding: 25px
+}
+
+/* The side navigation menu */
+
+.sidebar {
+    margin: 0;
+    padding: 0;
+    width: 160px;
+    background-color: white;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    box-shadow: 2px 0px 20px #9A989A;
+    font-family: "Trade_Gothic";
+    src: url("./tradeGothic.ttf");
+    color: #9A989A !important;
+    font-size: 100% !important;
+}
+
+/* Sidebar links */
+
+.sidebar a {
+    display: block;
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+}
+
+/* Active/current link */
+
+.sidebar a.active {
+    background-color: #A32638;
+    color: white;
+}
+
+/* Links on mouse-over */
+
+.sidebar a:hover:not(.active) {
+    background-color: #9A989A;
+    color: white;
+}
+
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+
+div.content {
+    margin-left: 150px;
+    padding: 10px 41px;
+    height: 100%;
+}
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+
+@media screen and (max-width: 500px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .sidebar a {
+        float: left;
+    }
+    div.content {
+        margin-left: 0;
+    }
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+
+@media screen and (max-width: 400px) {
+    .sidebar a {
+        text-align: center;
+        float: none;
+    }
+}
+
+/*<!-------------------------Nav BAR ------------------------------->*/
+
+.page-header {
+    margin: 0px !important;
+    padding: 10px 0px 10px 0px !important;
+    margin-bottom: 10px !important;
+    background-color: transparent !important;
+    border-bottom: 2px solid #A32638 !important;
+}
+
+h1 {
+   
+    font-size: 200% !important;
+}
+.table-option-btn{
+    padding: 0 !important;
+    background-color: transparent !important;
+    border: none !important;
+    color:#9A989A !important;
+    padding-left:10% !important;
+}
+.btn-remove:hover{
+    padding: 0 !important;
+    background-color: transparent !important;
+    border: none !important;
+    color:#A32638 !important;
+    padding-left:10% !important;
+}
+
+.page-content {
+    margin-left: 0px !important;
+    font-family: "Trade_Gothic";
+    src: url("./tradeGothic.ttf");
+}
+
+.searchBar{
+    margin-top:40px;
+    
+}
+.searchBar .col-sm-6 {
+    padding-right: 0px !important;
+}
+
+.searchBar .col-sm-2 {
+    padding-right: 0px !important;
+}
+
+.inputSearch input, .searchBarBtn input {
+    border-radius: 0px;
+}
+
+.searchBarBtn input {
+    background-color: #A32638;
+    color: white;
+    border-color: #A32638;
+    font-weight: bold;
+}
+#userSearchInput{
+  margin-top:20px !important;
+  border-color:transparent !important;
+  border-radius: 25px;
+  width:70% !important;
+  background-color:white !important;
+  box-shadow: 1px 1px 3px 1px #9A989A;
+  padding:10px !important;
+}
+
+.searchResult {
+    margin-left: 1px !important;
+    padding: 1px !important;
+    background-color: transparent !important;
+}
+
+.labels {
+    margin: 0px 1px 1px 1px !important;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #D3D3D3;
+    font-weight: bold;
+    color: #A32638;
+}
+
+.right {
+    text-align: right;
+}
+
+.left {
+    padding: 0px !important;
+}
+
+/*
+
+Reference: https://stackoverflow.com/questions/28285813/style-jquery-autocomplete-in-a-bootstrap-input-field
+*/
+
+.ui-autocomplete {
+    width: 20%;
+    position: absolute;
+    z-index: 1000;
+    cursor: default;
+    padding: 0;
+    margin-top: 2px;
+    list-style: none;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.ui-autocomplete>li {
+    padding: 0px 20px;
+    width: 100%;
+}
+
+.ui-autocomplete>li.ui-state-focus {
+    background-color: #DDD;
+}
+
+.ui-helper-hidden-accessible {
+    display: none;
+}
+
+/*---------------------------------------------------------------------*/
+
+.blockResults {
+    margin-top: 15px;
+    background-color: #EEEEEE !important;
+    padding: 20px 20px 20px 20px !important;
+    font-size: 110%;
+}
+
+.blockResults a:focus{
+    color:black;
+}
+.blockResults a{
+    color:black;
+}
+.blockResults .panel-heading {
+    font-weight: bold;
+    color: #A32638;
+}
+
+.profile-info .panel-heading{
+    padding-left:0px;
+    font-size:120%;
+    color:black;
+    border-bottom:1px solid  #A32638;
+    
+}
+.ISR-graph .panel-heading{
+    padding-left:0px;
+    font-size:120%;
+    color:black;
+    border-bottom:1px solid  #A32638;
+    
+}
+.ISR-graph{
+    background-color: transparent !important;
+    border-color: transparent !important;
+    padding: 10px 20px 30px 30px !important;
+    box-shadow:2px 3px 4px 5px #eeee;;
+    margin:10px 10px 10px 20px ;
+}
+
+.user-detail h2 {
+    color:#A32638 !important;
+    margin: 0px !important;
+    font-size:120%;
+    padding:1%;
+}
+.profile-info{
+    background-color: transparent !important;
+    border-color: transparent !important;
+    padding: 10px 20px 30px 30px !important;
+    box-shadow:2px 3px 4px 5px #eeee;;
+    margin:10px 10px 10px 20px ;
+   
+}
+#userListTable{
+   margin:25px !important;
+    border-color:transparent !important;
+}
+.stats{
+    background-color: transparent !important;
+    border-color: transparent !important;
+    padding: 10px 20px 5px 30px !important;
+    box-shadow:2px 3px 4px 5px #eeee;
+    margin:10px 10px 10px 20px ;
+}
+.stats table th{
+    font-weight:normal;
+}
+.stats table th{
+    padding:10px 0px 10px 0 !important;
+}
+.stats .panel-heading{
+    padding-left:0px;
+    font-size:120%;
+    color:black;
+    border-bottom:1px solid  #A32638;
+}
+.stats .panel-body{
+    padding-left:0px;
+}
+#userListTable th{
+   
+  border-bottom:2px solid lightgray !important;
+}
+
+.user-name {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    padding: 5px 0px 5px 0px !important;
+    
+}
+
+.User-Detail-labels {
+    padding: 15px 0px 0px 0px;
+}
+
+.panel-info {
+    border-color: transparent !important;
+    padding-bottom: 25px;
+}
+
+.user-detail{
+    padding: 0px !important;
+    font-size: 100%;
+}
+
+.section-head {
+    background-color: transparent !important;
+    font-size: 120%;
+    font-weight: bold;
+    color: white !important;
+    border-color: transparent !important;
+    background-color: #A32638 !important;
+}
+
+.term-TCH-summary {
+    color: #A32638 !important;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #A32638 !important;
+}
+
+.term-Overload-summary {
+    color: #A32638 !important;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #A32638 !important;
+    border-bottom: 2px solid #A32638 !important;
+}
+
+.annual-TCH-summary {
+    color: #A32638 !important;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #A32638 !important;
+}
+
+.annual-Overload-summary {
+    color: #A32638 !important;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #A32638 !important;
+}
+
+.summary-count {
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.summary-description {
+    font-size: 60%;
+}
+
+sup {
+    color: #A32638;
+}
+
+.teaching-assignment {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    padding: 10px 20px 30px 30px !important;
+    box-shadow:2px 3px 4px 5px #eeee !important;
+    margin:10px 40px 10px 5px !important ;
+}
+
+.teaching-assignment .panel-heading {
+     background-color: transparent !important;
+    /*color: black !important;
+    border-color: #A32638!important;
+    padding: 0px;
+    font-size: 20px; */
+    padding-left:0px;
+    font-size:120%;
+    color:black !important;
+    border-bottom:1px solid  #A32638 !important;
+}
+.panel-heading .title{
+    margin-bottom:0px !important;
+}
+
+.teaching-assignment .panel-body label {
+    font-weight: normal;
+  
+}
+.hide{
+    display:none;
+}
+
+.teaching-assignment .panel-body {
+    font-weight: normal;
+    padding-left: 0px !important;
+    /* max-height:400px !important;
+    overflow:auto;
+    margin-bottom:30px; */
+}
+
+.teaching-assignment .table td, th {
+    font-size: 100%;
+}
+
+#addTA {
+    background-color: #A32638 !important;
+    color: white;
+}
+
+.other-teaching-assignment {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    padding: 10px 20px 30px 30px !important;
+    box-shadow:2px 3px 4px 5px #eeee !important;
+    margin:10px 40px 10px 5px !important ;
+}
+
+.other-teaching-assignment .panel-heading {
+    background-color: transparent !important;
+    padding-left:0px;
+    font-size:120%;
+    color:black !important;
+    border-bottom:1px solid  #A32638 !important;
+}
+
+.other-teaching-assignment .panel-body label {
+    font-weight: normal;
+}
+.searchOption{
+    padding-top:10px ;
+}
+.other-teaching-assignment .panel-body {
+    font-weight: normal;
+    padding-left: 0px !important;
+
+}
+
+.other-teaching-assignment .table td, th {
+    font-size: 100%;
+}
+
+.searchBar{
+  padding:0.5%;
+}
+
+#addTA {
+    background-color: #A32638 !important;
+    color: white;
+}
+
+.release-time {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    padding: 10px 20px 30px 30px !important;
+    box-shadow:2px 3px 4px 5px #eeee !important;
+    margin:10px 40px 10px 5px !important ;
+}
+
+.release-time .panel-heading {
+    background-color: transparent !important;
+    padding-left:0px;
+    font-size:120%;
+    color:black !important;
+    border-bottom:1px solid  #A32638 !important;
+}
+#addISRBtn{
+    color:white !important;
+    background-color:#A32638 !important;
+   
+    margin:0% !important; 
+    border-radius:0px;
+    font-weight:bold;
+    width:100%;
+    padding:7px !important;
+    
+   
+}
+#ISRBtnLabel{
+    font-size:90%;
+    font-weight:bold;
+    padding:7px !important;
+    
+}
+
+.resultBox_with_options .pull-right{
+    padding:1%;
+}
+
+.seperator{
+    border-left:2px solid #eeee !important;
+    padding:1%;
+}
+#ISRAddBtn{
+    padding-left:5%;
+}
+
+.release-time .panel-body label {
+    font-weight: normal;
+}
+
+.release-time .panel-body {
+    font-weight: normal;
+    padding-left: 0px !important;
+}
+
+.release-time .table td, th {
+    font-size: 100%;
+}
+.attachment{
+    background-color: transparent !important;
+    border-color: transparent !important;
+    padding: 10px 20px 30px 30px !important;
+    box-shadow:2px 3px 4px 5px #eeee !important;
+    margin:10px 40px 10px 5px !important ;
+}
+
+.form-btn {
+    background-color: #A32638 !important;
+    color: white !important;
+}
+
+.attachment .panel-heading {
+    background-color: transparent !important;
+    padding-left:0px;
+    font-size:120%;
+    color:black !important;
+    border-bottom:1px solid  #A32638 !important;
+}
+
+.attachment .panel-body {
+    font-weight: normal;
+    padding-left: 0px !important;
+}
+
+.inputRequest input, .requestBarBtn input {
+    border-radius: 0px;
+}
+
+.requestBarBtn input {
+    background-color: #A32638;
+    color: white;
+    border-color: #A32638;
+    font-weight: bold;
+    width: 50% !important;
+}
+
+.requestResult {
+    margin-left: 1px !important;
+    padding: 1px !important;
+    background-color: transparent !important;
+}
+
+.requestBar {
+    padding: 55px;
+    padding-bottom: 0px
+}
+
+.requestBar requestBtn {
+    padding: 55px;
+}
+
+.requestSummary .panel-heading {
+    background-color: transparent !important;
+    padding-left:0px;
+    font-size:120% !important;
+    color:black !important;
+    border-bottom:1px solid  #A32638 !important;
+}
+.requestSummary .panel-body {
+    font-weight: normal;
+    padding-left: 20px !important;
+}
+
+.requestSummary {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    padding: 10px 20px 30px 30px !important;
+    box-shadow:2px 3px 4px 5px #eeee !important;
+    margin:10px 40px 10px 5px !important ;
+}
+
+.summary .row {
+    margin: 30px;
+    color: #9A989A
+}
+
+.summary .count {
+    font-size: 200% !important;
+    font-weight: bold;
+}
+
+.comments .panel-heading {
+    background-color: transparent !important;
+    padding-left:0px;
+    font-size:120% !important;
+    color:black !important;
+    border-color: #A32638 !important;
+}
+
+.comments .panel-body label {
+    font-weight: normal;
+}
+
+.comments .panel-body {
+    font-weight: normal;
+    padding-left: 20px !important;
+}
+
+.comments {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    padding: 10px 20px 30px 30px !important;
+    box-shadow:2px 3px 4px 5px #eeee !important;
+    margin:10px 40px 10px 5px !important ;
+}
+
+.comments textarea {
+    width: 100%;
+    height: 120px;
+}
+
+.comment-btn {
+    background-color: #A32638 !important;
+    color: white !important;
+}
+
+.posted-comments .panel-heading {
+    font-size: 120% !important;
+    border: none;
+    color: #A32638 !important;
+}
+
+.posted-comments .panel-body {
+    padding-left: 0px !important;
+}
+
+.sub-options {
+    font-size: 70%;
+}
+.add-btn{
+    background-color:transparent !important;
+    border:none !important;
+    color: #A32638 !important;
+    font-weight:bold !important;
+    padding:0px !important;
+}
+.modal-btn {
+    background-color: transparent !important;
+    border: none !important;
+    font-size: 100%  !important;
+    color: #A32638 !important;
+    padding: 0px !important;
+}
+#userListTable a{
+    color:#A32638;
+}
+.table-btn {
+    padding: 0 !important;
+    background-color: transparent !important;
+    color: #A32638 !important;
+    border: none !important;
+}
+.alert{
+    display:none;
+}
+
+.modal textarea {
+    width: 100%;
+    height: 100px;
+}
+
+.add-user-option {
+    padding: 10px 0px 5px 0px;
+    font-size: 110%;
+    color: #A32638;
+}
+
+.btn-success {
+    background-color: #A32638 !important;
+    border-color: #A32638 !important;
+    width: 20% !important;
+}
+
+.btn-danger {
+    background-color: #9A989A !important;
+    border-color: #9A989A !important;
+    width: 20% !important;
+}
+
+.modal-content {
+    padding: 5px !important;
+}
+
+.modal-title {
+    font-weight: bold;
+}
+
+.view-user .panel-heading {
+    background-color: transparent !important;
+    border-bottom: 1px solid #9A989A !important;
+    color: #A32638 !important;
+    font-weight: bold;
+    padding-left: 0px;
+    font-size: 120% !important;
+}
+
+.view-user .panel {
+    padding-bottom: 2px;
+    border-color: transparent!important;
+}
+
+.view-block {
+    padding-bottom: 15px;
+}
+
+.value-block {
+    padding: 10px 0px 0px 0px;
+    font-size: 115%;
+}
+
+.label-block {
+    font-weight: bold;
+    font-size: 115%;
+}
+
+
+#userSearchInput {
+    background-image: url('./img/searchicon.png');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+#userListTable {
+    
+    margin-left:0px !important;
+    
+    font-size: 100%;
+    margin-top:0px !important;
+}
+
+#userListTable th, #userListTable td {
+    text-align: left;
+    padding-left:5% !important;
+}
+
+
+
+
+.create-newUser-module {
+    border: none !important;
+}
+
+.create-newUser-module .panel-title {
+    background-color: transparent !important;
+    border-bottom: none !important;
+    color: black !important;
+    font-size: 100%;
+}
+.create-newUser-module .panel-info {
+    padding-bottom:0 !important;
+   
+}
+
+.create-newUser-module .panel-info .panel-heading {
+    background-color: transparent !important;
+    color: #A32638;
+    border-bottom: 1px solid #9A989A;
+    padding-left: 0px;
+    font-weight: bold;
+    font-size: 100%
+}
+
+.create-newUser-module .panel-info .panel-body {
+    padding-left: 0px !important;
+    font-size: 100%;
+    border-color:transparent !important;
+   
+}
+.create-newISR-modal {
+    border: none !important;
+}
+
+.create-newISR-modal .panel-title {
+    background-color: transparent !important;
+    border-bottom: none !important;
+    color: black !important;
+    font-size: 100%;
+}
+.create-newISR-modal .panel-info {
+    padding-bottom:0 !important;
+   
+}
+:focus{
+    outline:none;
+}
+.create-newISR-modal .panel-info .panel-heading {
+    background-color: transparent !important;
+    color: #A32638;
+    border-bottom: 1px solid #9A989A;
+    padding-left: 0px;
+    font-weight: bold;
+    font-size: 100%
+}
+.footer-note{
+    font-size:80% ;
+}
+
+.create-newISR-modal .panel-info .panel-body {
+    padding-left: 0px !important;
+    font-size: 100%;
+    border-color:transparent !important;
+   
+}

@@ -1,0 +1,56 @@
+<!-- Page content -->
+<div class="content">
+    <div class="jumbotron page-header">
+        <h1>User Module</h1>
+    </div>
+    <div class="page-content">
+
+        <input type="text" id="userSearchInput" onkeyup="userSearchFunction()" placeholder="Search for users..."
+            title="Search User by name"><br>
+          
+        <div class="add-user-option pull-right"><button type="button" data-target="#create-user-modal"
+                data-toggle="modal" data-backdrop="static" href="/modals/createUser" class="btn btn-info btn-lg modal-btn"><span
+                    class="glyphicon glyphicon-plus"></span> CREATE USER</span></button></div>
+        <table id="userListTable" class="table table-responsive-sm">
+            <tr class="header">
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Role</th>
+                <th>View</th>
+                <th>Delete</th>
+
+            </tr>
+            {{#if userDetailList}}
+            {{#each userDetailList}}
+            <tr>
+                <td>{{this.name}}</td>
+                <td>{{this.designation}}</td>
+                <td>{{this.role}}</td>
+                <td><a href="user/view/{{this.partyId}}"><span class="glyphicon glyphicon-new-window"></span></a></td>
+                <td><button type="button" data-target="#remove-user-modal" data-id={{this.partyId}} data-toggle="modal" href="/modals/removeUser/{{this.partyId}}"
+                        class="btn btn-info btn-lg modal-btn rm-modal"><span class="glyphicon glyphicon-trash"></span></button>
+                </td>
+
+            </tr>
+            {{/each}}
+            {{/if }}
+
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="remove-user-modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="create-user-modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,236 @@
+<div class="content">
+    <div class="jumbotron page-header">
+        <h1>User Module</h1>
+    </div>
+    <div class="page-content">
+        <div class="view-user">
+            <div class="panel-group">
+                <div class="panel panel-info">
+                    <div class="panel-heading">PERSONAL INFO <button type="button" data-target="#view-user-modal"
+                            data-toggle="modal" href="/modals/update/personalInfo/{{userInfo.person.partyId}}"
+                            class="btn btn-info btn-lg add-btn pull-right"><span
+                                class="glyphicon glyphicon-edit"></span></button></div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="view-block">
+                                    <span class="label-block">First Name</span>
+                                    <div class="value-block">{{userInfo.person.firstName}} </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="view-block">
+                                    <span class="label-block">Middle Name</span>
+                                    <div class="value-block">- </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="view-block">
+                                    <span class="label-block">Last Name</span>
+                                    <div class="value-block">{{{userInfo.person.lastName}}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="view-block">
+                                    <span class="label-block">Gender</span>
+                                    <div class="value-block">{{userInfo.person.gender}}</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="view-block">
+                                    <span class="label-block">Role</span>
+                                    <div class="value-block">{{userInfo.partyRole.roleTypeId}}</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="view-block">
+                                    <span class="label-block">Date of Birth</span>
+                                    <div class="value-block">{{userInfo.person.birthDate}}</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="view-user-modal" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">SCHOOL AND DEPARTMENT <button type="button"
+                            data-target="#update-schoolDept-modal" data-toggle="modal"
+                            href="/modals/update/schoolDepartment/{{userInfo.person.partyId}}"
+                            class="btn btn-info btn-lg add-btn pull-right"><span
+                                class="glyphicon glyphicon-edit"></span></button></div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">School</span>
+                                    <div class="value-block">{{userInfo.partyDepartmentSchool.schoolTypeId}}</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">Department</span>
+                                    <div class="value-block">{{userInfo.partyDepartmentSchool.departmentTypeId}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">Designation</span>
+                                    <div class="value-block">{{userInfo.partyDesignation.designationTypeId}}</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">Faculty Type</span>
+                                    <div class="value-block">{{userInfo.partyFaculty.facultyTypeId}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="update-schoolDept-modal" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">POSTAL ADDRESS<button type="button"
+                            data-target="#update-postalAddress-modal" data-toggle="modal"
+                            href="/modals/update/postalAddress/{{userInfo.person.partyId}}"
+                            class="btn btn-info btn-lg add-btn pull-right"><span
+                                class="glyphicon glyphicon-edit"></span></button></div>
+                    <div class="panel-body">
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">House Number</span>
+                                    <div class="value-block">{{userInfo.postalAddress.houseNumber}} </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">Address Line 1</span>
+                                    <div class="value-block">{{userInfo.postalAddress.address1}}</div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">Country</span>
+                                    <div class="value-block">{{userInfo.postalAddress.country}}</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">State</span>
+                                    <div class="value-block">{{userInfo.postalAddress.state}}</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">City</span>
+                                    <div class="value-block">{{userInfo.postalAddress.city}}</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">Zip Code</span>
+                                    <div class="value-block">07307</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="update-postalAddress-modal" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">CONTACT DETAILS <button type="button"
+                            data-target="#update-contactDetails-modal" data-toggle="modal"
+                            href="/modals/update/contactDetails/{{userInfo.person.partyId}}"
+                            class="btn btn-info btn-lg add-btn pull-right"><span
+                                class="glyphicon glyphicon-edit"></span></button></div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">Phone Number</span>
+                                    <div class="value-block">{{userInfo.telecomNumber.contactNumber}}</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">Email</span>
+                                    <div class="value-block">{{userInfo.email.emailAddress}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="update-contactDetails-modal" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">LOGIN CREDENTIALS <button type="button"
+                            data-target="#update-loginCredentials-modal" data-toggle="modal"
+                            href="/modals/update/loginCredentials/{{userInfo.person.partyId}}"
+                            class="btn btn-info btn-lg add-btn pull-right"><span
+                                class="glyphicon glyphicon-edit"></span></button></div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">User Id</span>
+                                    <div class="value-block">{{userInfo.userLoginSecurityGroup.userLoginId}}</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="view-block">
+                                    <span class="label-block">Password</span>
+                                    <div class="value-block">*****************</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="update-loginCredentials-modal" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

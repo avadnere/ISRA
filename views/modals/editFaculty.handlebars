@@ -1,0 +1,200 @@
+<form data-action="/modals/editFaculty" id="editFaculty" method="POST"
+    name="facultyAjaxForm">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Update Faculty</h4>
+    </div>
+    <div class="modal-body">
+        <div class="panel panel-primary create-newUser-module">
+            {{alertMsg}}
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" value={{facultyInfo.firstName}} name="firstName"
+                            placeholder="First Name">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" value={{facultyInfo.lastName}}  name="lastName" placeholder="Last Name">
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="schoolTypeId">School</label>
+                <select class="form-control" id="schoolTypeId" name="schoolTypeId">
+                    <option selected>Choose...</option>
+                    {{#selected facultyInfo.schoolTypeId}}
+                    {{#each schoolTypeList}}
+                    <option value="{{this.schoolTypeId}}">{{this.schoolTypeId}}</option>
+                    {{/each}}
+                    {{/selected}}
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="departmentTypeId">Department</label>
+                <select class="form-control" id="departmentTypeId" name="departmentTypeId">
+                    <option selected>{{facultyInfo.departmentTypeId}}</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="designationTypeId">Rank</label>
+                        <select class="form-control" id="designationTypeId" name="designationTypeId">
+                             {{#selected facultyInfo.designationTypeId}}
+                            {{#each designationTypeList}}
+                            <option value="{{this._id}}">{{this._id}}</option>
+                            {{/each}}
+                            {{/selected}}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="facultyTypeId">Contract Type</label>
+                        <select class="form-control" id="facultyTypeId" name="facultyTypeId">
+                            <option selected>Choose...</option>
+                            {{#selected facultyInfo.facultyTypeId}}
+                            {{#each facultyTypeList}}
+                            <option value="{{this.facultyTypeId}}">{{this.facultyTypeId}}</option>
+                            {{/each}}
+                            {{/selected}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contractualLoad">Contractual Load</label>
+                <input type="number" class="form-control" name="contractualLoad" id="contractualLoad" value="{{facultyInfo.contractualLoad}}">
+            </div>
+            <div class="form-group {{facultyInfo.bootstrapClass}}" id="load-distribution">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="fallLoad">Fall Load</label>
+                            <input type="number" class="form-control" name="fallLoad" id="fallLoad" value="{{facultyInfo.fallLoad}}">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="springLoad">Spring Load</label>
+                            <input type="number" class="form-control" id="springLoad" name="springLoad" value="{{facultyInfo.springLoad}}">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="summer1Load">Summer 1 Load</label>
+                            <input type="number" class="form-control" name="summer1Load" id="summer1Load" value="{{facultyInfo.summer1Load}}">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="summer2Load">Summer 2 Load</label>
+                            <input type="number" class="form-control" name="summer2Load" id="summer2Load" value="{{facultyInfo.summer2Load}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <input type="hidden" class="form-control" name="partyId" id="partyId" value="{{facultyInfo.partyId}}" >
+            {{!-- <div class="panel panel-info">
+                    <div class="panel-heading">POSTAL ADDRESS</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <label for="houseNumber">House Number</label>
+                                    <input type="number" class="form-control" name="houseNumber" id="houseNumber"
+                                        placeholder="House Number">
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="form-group">
+                                    <label for="address1">Address Line 1</label>
+                                    <input type="text" class="form-control" name="address1" id="address1"
+                                        placeholder="Address Line 1">
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="country">Country</label>
+
+                                    <select name="country" class="form-control countries" id="countryId">
+
+                                        <option value="">Select Country</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="state">State</label>
+
+                                    <select name="state" class="form-control states" name="state" id="stateId">
+
+                                        <option value="">Select State</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="city">City</label>
+
+                                    <select name="city" class="form-control cities" id="cityId">
+
+                                        <option value="">Select City</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="postalCode">Zip Code</label>
+                                    <input type="number" class="form-control" id="postalCode" name="postalCode"
+                                        placeholder="Zip Code">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">CONTACT DETAILS</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="contactNumber">Phone Number</label>
+                                    <input type="number" class="form-control" id="contactNumber" name="contactNumber">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="houseNumber">Email</label>
+                                    <input type="emailAddress" class="form-control" id="emailAddress"
+                                        name="emailAddress" placeholder="Email">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+        </div>
+    </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-default btn-success" data-backdrop="static">Update</button>
+        <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Close</button>
+    </div>
+</form>
+<script src="../../public/js/script.js"></script>

@@ -1,0 +1,74 @@
+<!-- Page content -->
+<div class="content">
+    <div class="jumbotron page-header">
+        <h1>Faculty Module</h1>
+    </div>
+    <div class="page-content">
+
+        <input type="text" id="userSearchInput" onkeyup="userSearchFunction()" placeholder="Search for Faculty..."
+            title="Search Faculty by name"><br>
+
+        <div class="add-user-option pull-right"><button type="button" data-target="#create-faculty-modal"
+                data-toggle="modal" data-backdrop="static" href="/modals/createFaculty"
+                class="btn btn-info btn-lg modal-btn"><span class="glyphicon glyphicon-plus"></span> ADD
+                FACULTY</span></button></div>
+        <table id="userListTable" class="table table-responsive-sm">
+            <tr class="header">
+                <th>Name</th>
+                <th>Department</th>
+                <th>Rank</th>
+                <th>Type</th>
+                <th>Contractual Teaching Load</th>
+                <th></th>
+
+            </tr>
+            {{#if facultyDetailList}}
+            {{#each facultyDetailList}}
+            <tr>
+                <td>{{this.name}}</td>
+                <td>{{this.department}}</td>
+                <td>{{this.designation}}</td>
+                <td>{{this.facultyTypeId}}</td>
+                <td>{{this.contractualLoad}}</td>
+                <td><button type="button" data-target="#edit-faculty-modal" data-toggle="modal"
+                        href="/modals/edit/faculty/{{this.partyId}}"
+                        class="btn btn-info btn-lg  table-option-btn btn-edit">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </button>
+                    <button type="button" data-target="#remove-faculty-modal" data-toggle="modal" href="/modals/removeFaculty/{{this.partyId}}"
+                        class="btn btn-info btn-lg  table-option-btn btn-remove ">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+            </tr>
+            {{/each}}
+            {{/if }}
+
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="remove-faculty-modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="edit-faculty-modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="create-faculty-modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<script src="../public/js/script.js"></script>

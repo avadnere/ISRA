@@ -1,0 +1,70 @@
+<form onsubmit="return updateUser()" data-action="/modals/update/schoolDepartment/{{schoolDepartmentInfo.partyDepartmentSchool.partyId }}" id="updateschoolDepartmentForm" method="POST"
+   name="updateUser">
+   <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Update School and Department</h4>
+   </div>
+   <div class="modal-body">
+      <div class="user-detail">
+         <div class="row">
+            <div class="col-sm-6">
+               <div class="form-group">
+                  <label for="schoolTypeId">School</label>
+                  <select class="form-control" id="schoolTypeId" name="schoolTypeId">
+                     <option selected>Choose...</option>
+                     {{#selected schoolDepartmentInfo.partyDepartmentSchool.schoolTypeId }}
+                     {{#each schoolTypeList}}
+                     <option value="{{this.schoolTypeId}}">{{this.schoolTypeId}}</option>
+                     {{/each}}
+                     {{/selected}}
+                  </select>
+               </div>
+            </div>
+            <div class="col-sm-6">
+               <div class="form-group">
+                  <label for="departmentTypeId">Department</label>
+                  <select class="form-control" id="departmentTypeId" name="departmentTypeId">
+                     {{#if schoolDepartmentInfo.partyDepartmentSchool.departmentTypeId }}
+                     <option selected>{{schoolDepartmentInfo.partyDepartmentSchool.departmentTypeId}}</option>
+                     {{/if }}
+                  </select>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-sm-6">
+               <div class="form-group">
+                  <label for="designationTypeId">Designation</label>
+                  <select class="form-control" id="designationTypeId" name="designationTypeId">
+                     <option selected>Choose...</option>
+                     {{#selected schoolDepartmentInfo.partyDesignation.designationTypeId }}
+                     {{#each designationTypeList}}
+                     <option value="{{this._id}}">{{this._id}}</option>
+                     {{/each}}
+                     {{/selected}}
+                  </select>
+               </div>
+            </div>
+            <div class="col-sm-6">
+               <div class="form-group">
+                  <label for="facultyTypeID">Faculty Type</label>
+
+                  <select class="form-control" id="facultyTypeId" name="facultyTypeId">
+                     <option selected>Choose...</option>
+                     {{#selected schoolDepartmentInfo.partyFaculty.facultyTypeId }}
+                     {{#each facultyTypeList}}
+                     <option value="{{this.facultyTypeId}}">{{this.facultyTypeId}}</option>
+                     {{/each}}
+                     {{/selected}}
+                  </select>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="modal-footer">
+      <button type="submit" class="btn btn-default btn-success" >update</button>
+      <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Close</button>
+   </div>
+</form>
+<script src="../../public/js/script.js"></script>

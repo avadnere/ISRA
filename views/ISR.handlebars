@@ -1,0 +1,64 @@
+<div class="content">
+    <div class="jumbotron page-header">
+        <h1>Instructional Service Report Module</h1>
+    </div>
+    <div class=" page-content">
+        <form name="isr-user-search-form" id="isr-user-search-form" method="GET">
+
+            <div class="row searchBar">
+
+                <div class="col-sm-8 searchOption">
+                    <label for="addISRBtn"> SEARCH ISR </label>
+                    <div class="form-group inputSearch">
+                        {{!-- <input class="form-control autocomplete" id="selectUser" placeholder="SELECT USER"> --}}
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <select name="partyId" class="form-control user" id="partyId">
+                                    {{#each facultyDetailList}}
+                                    <option value={{this.partyId}}>{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group searchBarBtn">
+                                    <input type="submit" class="form-control searchUserbtn" id="searchBarBtn"
+                                        value="SEARCH">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class=" col-sm-4 row seperator">
+                    {{!-- <div class="col-sm-4 " id="ISRBtnLabel">
+                        CREATE NEW ISR
+                    </div> --}}
+                    <div class="col-sm-8" id="ISRAddBtn">
+                        <div class="form-group addBtn center-block">
+                            <label for="addISRBtn"> CREATE NEW ISR</label>
+                            <button type="button" data-target="#create-ISR-modal" data-toggle="modal"
+                                data-backdrop="static" href="/modals/createISR" id="addISRBtn"
+                                class="btn btn-info btn-lg modal-btn">
+                                {{!-- <span class="glyphicon glyphicon-plus"></span> --}}
+                                CREATE ISR
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <hr>
+        <div class="jumbotron searchResult" id="searchResult">
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="create-ISR-modal" role="dialog">
+   <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+      </div>
+   </div>
+</div>
+<script src="../public/js/script.js"></script>

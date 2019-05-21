@@ -1,0 +1,65 @@
+@font-face {
+    font-family: "Trade_Gothic";
+    src: url("../font/tradeGothic.ttf");
+}
+
+.container-fluid {
+    font-family: "Trade_Gothic";
+}
+
+.login-box {
+    margin: 10% 20% 0% 20% !important;
+    background-color: transparent !important;
+    box-shadow: 4px 1px 20px 0px;
+    padding: 0px !important;
+}
+
+.left-block {
+    padding: 60px 20px 60px 20px!important;
+    padding-top: 5px;
+    background-color: white !important;
+    width: 100%;
+}
+
+.left-block img {
+    height: 90%;
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap
+}
+
+.recover-link {
+    margin: 0px !important;
+    padding: 0px 0px 5px 0px !important
+}
+
+.right-block {
+    padding: 5% !important;
+    background-color: #eee;
+    width: 100%;
+}
+
+.right-block h2 {
+    color: #A32638 !important;
+    font-size: 250% !important;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.right-block label {
+    color: #9A989A !important;
+    font-size: 120% !important;
+}
+
+.right-block input[type="submit"] {
+    background-color: #A32638 !important;
+    color: white;
+    padding: 10px 0px 30px 0 !important;
+}
+
+.recover-link {
+    background-color: transparent !important;
+}

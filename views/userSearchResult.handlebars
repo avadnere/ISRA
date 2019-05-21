@@ -1,0 +1,67 @@
+<div class="<!--row--> labels">
+   <div <!--class="col-sm-6 left" -->
+      ISR SEARCH RESULT FOR {{ISRInfo.name}}
+   </div>
+   {{!-- CREATE ISR BOX --}}
+   {{!-- <div class="col-sm-6 right">
+      <div class="add-ISR-btn pull-right"><button type="button" data-target="#create-ISR-modal" data-toggle="modal"
+         data-backdrop="static" href="/modals/createISR/{{ISRInfo.partyId}}"
+         class="btn btn-info btn-lg modal-btn"><span class="glyphicon glyphicon-plus"></span> CREATE
+         ISR</span></button>
+      </div>
+   </div> --}}
+</div>
+{{#if ISRInfo.ISRList}}
+{{#each ISRInfo.ISRList}}
+<div class="resultBox_with_options">
+   <div class="pull-right">
+      <button type="button" data-target="#edit-ISR-modal" data-toggle="modal"
+         href="/modals/editISR/{{this.partyISRId}}" class="btn btn-info btn-lg  table-option-btn btn-edit ">
+         <span class="glyphicon glyphicon-edit"></span>
+      </button> 
+      <button type="button" data-target="#remove-ISR-modal" data-toggle="modal"
+         href="/modals/removeISR/{{this.partyISRId}}" class="btn btn-info btn-lg  table-option-btn btn-remove ">
+         <span class="glyphicon glyphicon-trash"></span>
+      </button> 
+   </div>
+   <div class=" jumbotron blockResults">
+      <a href="ISR/termISR/{{this.partyISRId}}">
+         <div class="panel-heading">ANNUAL YEAR {{this.year}} </div>
+         <div class="panel-body">
+            <div class="row">
+               <div class="col-sm-3">
+                  Assigned TCH : {{this.assignedTCH}}
+               </div>
+               <div class="col-sm-3">
+                  Completed TCH : {{this.currentTCH}}
+               </div>
+               <div class="col-sm-3">
+                  Total Overload : {{this.currentOverload}}
+               </div>
+               <div class="col-sm-3">
+                  Last Update :{{this.lastUpdate}}
+               </div>
+            </div>
+            <hr>
+         </div>
+      </a>
+   </div>
+</div>
+{{/each}}
+{{/if}}
+<div class="modal fade" id="edit-ISR-modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="remove-ISR-modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>

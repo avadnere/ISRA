@@ -1,0 +1,33 @@
+<form>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Course Schedule</h4>
+    </div>
+    <div class="modal-body">
+
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Section</th>
+                    <th>Schedule</th>
+                    <th>Time</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody>
+               <tr>
+                   <td>{{courseSchedule.courseTypeId}}</td>
+                   <td>{{courseSchedule.sectionTypeId}}</td>
+                   <td>{{courseSchedule.schedule}}</td>
+                   <td>{{courseSchedule.time}}</td>
+                   <td>{{courseSchedule.location}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Close</button>
+    </div>
+</form>
