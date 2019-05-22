@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Update Other Teaching Assignment</h4>
+</div>
+<form data-action="/modals/update/otherTeachingAssignment" id="updateOtherteachingAssignment" method="POST"
+    name="assignmentAjaxForm">
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="Select Course">Assignment Type</label>
+            <input type="text" class="form-control" id="assignmentType" name="assignmentType"
+                value="{{otherTeachingAssignment.assignmentType}}" disabled>
+        </div>
+        <div class="form-group">
+            <label for="enrollement">Enrollement </label>
+            <input type="number" class="form-control" name="enrollement" id="enrollement"
+                value='{{otherTeachingAssignment.enrollement}}' placeholder="Enrollement">
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label for="semhrs">Sem Hours</label>
+                    <input type="number" class="form-control" name="semHours" id="semHours" value="{{otherTeachingAssignment.semHours}}"
+                        placeholder="Sem Hours">
+                </div>
+                <div class="col-sm-4">
+                    <label for="ssh">SSH</label>
+                    <input type="number" class="form-control" id="ssh" placeholder="SSH" value="{{otherTeachingAssignment.ssh}}"
+                        disabled>
+                </div>
+                <div class="col-sm-4">
+                    <label for="tch">TCH</label>
+                    <input type="number" class="form-control" name="TCH" id="TCH" value="{{otherTeachingAssignment.TCH}}"
+                        placeholder="TCH">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <div><textarea name="description" id="description">{{otherTeachingAssignment.description}}</textarea></div>
+        </div>
+        <input type="hidden" value="{{otherTeachingAssignment._id}}" name="_id"
+            id="otherTeachingAssignmentId">
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-default btn-success">Update</button>
+        <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Close</button>
+    </div>
+</form>
+<script src="../../public/js/script.js"></script>

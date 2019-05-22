@@ -9,20 +9,23 @@ let exportedMethods = {
         try {
             return otherTeachingAssignment().then(otherTeachingAssignmentCollection => {
                 let newOtherTeachingAssignment = {
+                    _id:uuid(),
                     otherTeachingAssignmentId: otherTeachingAssignmentInfo.otherTeachingAssignmentId,
-                    assignmentType:otherTeachingAssignmentInfo.assignmentType,
+                    assignmentType: otherTeachingAssignmentInfo.assignmentType,
                     termedISRId: otherTeachingAssignmentInfo.termedISRId,
-                    TCH:otherTeachingAssignmentInfo.TCH,
-                    overload:otherTeachingAssignmentInfo.overload,
+                    TCH: otherTeachingAssignmentInfo.TCH,
+                    enrollement: otherTeachingAssignmentInfo.enrollement,
+                    semHours: otherTeachingAssignmentInfo.semHours,
+                    ssh: otherTeachingAssignmentInfo.ssh,
                     partyISRId: otherTeachingAssignmentInfo.partyISRId,
-                    description:otherTeachingAssignmentInfo.description,
-                   
+                    description: otherTeachingAssignmentInfo.description,
+
                 }
                 return otherTeachingAssignmentCollection
                     .insertOne(newOtherTeachingAssignment)
                     .then(newInsertInformation => {
                         return newInsertInformation.insertedId;
-                        
+
                     })
             });
         }
@@ -31,17 +34,17 @@ let exportedMethods = {
         }
     },
     //------------------------------------Update OtherTeachingAssignment------------------------------------------------
-    async updateOtherTeachingAssignment(otherTeachingAssignmentId, updateOtherTeachingAssignment) {
+    async updateOtherTeachingAssignment(_id, updateOtherTeachingAssignment) {
         try {
-            return this.getOtherTeachingAssignmentById(otherTeachingAssignmentId).then(currentOtherTeachingAssignment => {
+            return this.getOtherTeachingAssignmentBy_id(_id).then(currentOtherTeachingAssignment => {
                 let updateCommand = {
                     $set: updateOtherTeachingAssignment
                 };
                 return otherTeachingAssignment().then(otherTeachingAssignmentCollection => {
                     return otherTeachingAssignmentCollection.updateOne({
-                        otherTeachingAssignmentId: otherTeachingAssignmentId
+                       _id:_id
                     }, updateCommand).then(() => {
-                        return this.getOtherTeachingAssignmentById(otherTeachingAssignmentId);;
+                        return this.getOtherTeachingAssignmentBy_id(_id);;
                     });
                 });
             });
@@ -77,6 +80,17 @@ let exportedMethods = {
             }).then(deletionInfo => {
                 if (deletionInfo.deletedCount === 0) {
                     throw `Could not delete otherTeachingAssignmentId with id of ${otherTeachingAssignmentId}`;
+                }
+            });
+        });
+    },
+    async deleteOtherTeachingAssignmentBy_id(_id) {
+        return otherTeachingAssignment().then(otherTeachingAssignmentCollection => {
+            return otherTeachingAssignmentCollection.removeOne({
+               _id:_id
+            }).then(deletionInfo => {
+                if (deletionInfo.deletedCount === 0) {
+                    throw `Could not delete otherTeachingAssignmentId with id of ${_id}`;
                 }
             });
         });
@@ -118,17 +132,14 @@ let exportedMethods = {
     },
     async getOtherTeachingAssignmentBy_id(_id) {
         try {
-            return otherTeachingAssignment().then(otherTeachingAssignmentCollection => {
-                return otherTeachingAssignmentCollection.findOne({
-                    _id: _id
-                }).then(otherTeachingAssignment => {
-                    if (!otherTeachingAssignment) return false;
-                    else throw error;
-                });
+            const otherTeachingAssignmentCollection = await otherTeachingAssignment();
+            const ota = await otherTeachingAssignmentCollection.findOne({
+              _id:_id,
             });
+            return ota;
         }
         catch (err) {
-            throw `could not get otherTeachingAssignment with Id ${err}`;
+            throw `could not get other teachingAssignment with Id ${err}`;
         }
     },
     //------------------------------------Get OtherTeachingAssignmentByPartyId----------------------------------------------------------
@@ -147,7 +158,7 @@ let exportedMethods = {
             throw `could not get otherTeachingAssignment with Id ${err}`;
         }
     },
-     //------------------------------------Get All OtherTeachingAssignment----------------------------------------------------------
+    //------------------------------------Get All OtherTeachingAssignment----------------------------------------------------------
 
     async getAllOtherTeachingAssignment() {
         try {

@@ -36,8 +36,8 @@ let exportedMethods = {
                     partyISRId: partyISR.partyISRId,
                     assignedTCH: ISRInfo.assignedTCHFall,
                 }
-                let summer1ISR=partyISR.summer1ISR;
-                console.log("Summer1 ISR id: "+partyISR.summer1ISR)
+                let summer1ISR = partyISR.summer1ISR;
+                console.log("Summer1 ISR id: " + partyISR.summer1ISR)
                 let summer1ISRInfo = {
                     termedISRId: summer1ISR,
                     termTypeId: "SUMMER1",
@@ -58,7 +58,7 @@ let exportedMethods = {
                     assignedTCH: ISRInfo.assignedTCHSpring,
                 }
 
-                
+
                 let yISRInfo = {
                     termedISRId: partyISR.yISR,
                     termTypeId: "Y",
@@ -104,6 +104,14 @@ let exportedMethods = {
             throw e;
         }
     },
+    async getReleaseTimeBy_id(_id) {
+        try {
+            return await releaseTimeEntity.getReleaseTimeBy_id(_id);
+        }
+        catch (e) {
+            throw e;
+        }
+    },
     async getTermedISRByTeachingAssignmentId(teachingAssignmentId) {
         try {
             return await termedISREntity.getTermedISRByTeachingAssignmentId(teachingAssignmentId);
@@ -133,24 +141,24 @@ let exportedMethods = {
             let status = await teachingAssignmentEntity.createTeachingAssignment(teachingAssignmentInfo);
 
             if (true) {
-                let termedOverload=0;
+                let termedOverload = 0;
 
                 let termISR = await this.getTermedISRByTeachingAssignmentId(teachingAssignmentInfo.teachingAssignmentId);
-                
-                if((parseInt(termISR.assignedTCH)-parseInt(teachingAssignmentInfo.TCH)-parseInt(termISR.termedTCH))<0){
-                     termedOverload=(parseInt(teachingAssignmentInfo.TCH)+parseInt(termISR.termedTCH))-parseInt(termISR.assignedTCH)
+
+                if ((parseInt(termISR.assignedTCH) - parseInt(teachingAssignmentInfo.TCH) - parseInt(termISR.termedTCH)) < 0) {
+                    termedOverload = (parseInt(teachingAssignmentInfo.TCH) + parseInt(termISR.termedTCH)) - parseInt(termISR.assignedTCH)
                 }
-                let updateInfo = { termedTCH: parseInt(teachingAssignmentInfo.TCH) + parseInt(termISR.termedTCH),termedOverload:termedOverload };
+                let updateInfo = { termedTCH: parseInt(teachingAssignmentInfo.TCH) + parseInt(termISR.termedTCH), termedOverload: termedOverload };
                 updateInfo.timestamp = new Date();
 
-                let currentOverload=0;
-                let partyISR= await partyISREntity.getPartyISRById(termISR.partyISRId);
+                let currentOverload = 0;
+                let partyISR = await partyISREntity.getPartyISRById(termISR.partyISRId);
 
-                if((parseInt(partyISR.assignedTCH)-parseInt(partyISR.currentTCH)-parseInt(teachingAssignmentInfo.TCH))<0){
-                    currentOverload=(parseInt(partyISR.currentTCH)+parseInt(teachingAssignmentInfo.TCH))-parseInt(partyISR.assignedTCH);
-                } 
-                let updateInfo2 = { currentTCH: parseInt(teachingAssignmentInfo.TCH) + parseInt(termISR.termedTCH),currentOverload:currentOverload };
-               
+                if ((parseInt(partyISR.assignedTCH) - parseInt(partyISR.currentTCH) - parseInt(teachingAssignmentInfo.TCH)) < 0) {
+                    currentOverload = (parseInt(partyISR.currentTCH) + parseInt(teachingAssignmentInfo.TCH)) - parseInt(partyISR.assignedTCH);
+                }
+                let updateInfo2 = { currentTCH: parseInt(teachingAssignmentInfo.TCH) + parseInt(termISR.termedTCH), currentOverload: currentOverload };
+
                 updateInfo2.lastUpdate = new Date();
                 try {
                     await termedISREntity.updateTermedISR(termISR.termedISRId, updateInfo);
@@ -172,31 +180,31 @@ let exportedMethods = {
             let oldTCH = oldTeachingAssignment.TCH;
             let status = await teachingAssignmentEntity.updateTeachingAssignment(_id, teachingAssignmentInfo);
 
-            
-            if (status) {
-              
-                
-                let termISR = await termedISREntity.getTermedISRById(teachingAssignmentInfo.termedISRId);
-                
-                let TCHdiff=parseInt(oldTCH)-parseInt(teachingAssignmentInfo.TCH)
-                let newTermedISR= parseInt(termISR.termedTCH)-parseInt(TCHdiff);
-                let termedOverload=0;
 
-                if((parseInt(termISR.termedOverload)-parseInt(TCHdiff))>0){
-                     termedOverload=(parseInt(termISR.termedOverload)-parseInt(TCHdiff));
+            if (status) {
+
+
+                let termISR = await termedISREntity.getTermedISRById(teachingAssignmentInfo.termedISRId);
+
+                let TCHdiff = parseInt(oldTCH) - parseInt(teachingAssignmentInfo.TCH)
+                let newTermedISR = parseInt(termISR.termedTCH) - parseInt(TCHdiff);
+                let termedOverload = 0;
+
+                if ((parseInt(termISR.termedOverload) - parseInt(TCHdiff)) > 0) {
+                    termedOverload = (parseInt(termISR.termedOverload) - parseInt(TCHdiff));
                 }
 
-                let updateInfo = { termedTCH:newTermedISR,termedOverload:termedOverload };
+                let updateInfo = { termedTCH: newTermedISR, termedOverload: termedOverload };
                 updateInfo.timestamp = new Date();
 
-                let currentOverload=0;
-                let partyISR= await partyISREntity.getPartyISRById(termISR.partyISRId);
-                let currentTCH = parseInt(partyISR.currentTCH)-TCHdiff;    
-                if((parseInt(partyISR.currentOverload)-parseInt(TCHdiff))>0){
-                    currentOverload=(parseInt(partyISR.currentOverload)-parseInt(TCHdiff));
-               }
-                let updateInfo2 = { currentTCH:currentTCH,currentOverload:currentOverload };
-               
+                let currentOverload = 0;
+                let partyISR = await partyISREntity.getPartyISRById(termISR.partyISRId);
+                let currentTCH = parseInt(partyISR.currentTCH) - TCHdiff;
+                if ((parseInt(partyISR.currentOverload) - parseInt(TCHdiff)) > 0) {
+                    currentOverload = (parseInt(partyISR.currentOverload) - parseInt(TCHdiff));
+                }
+                let updateInfo2 = { currentTCH: currentTCH, currentOverload: currentOverload };
+
                 updateInfo2.lastUpdate = new Date();
                 try {
                     await termedISREntity.updateTermedISR(termISR.termedISRId, updateInfo);
@@ -215,12 +223,69 @@ let exportedMethods = {
     async createOtherTeachingAssignment(otherTeachingAssignmentInfo) {
         try {
             let status = await otherTeachingAssignmentEntity.createOtherTeachingAssignment(otherTeachingAssignmentInfo);
+            if (status) {
 
-            if (true) {
+                let termedOverload = 0;
                 let termISR = await this.getTermedISRByOtherTeachingAssignmentId(otherTeachingAssignmentInfo.otherTeachingAssignmentId);
-                let updateInfo = { termedTCH: parseInt(otherTeachingAssignmentInfo.TCH) + parseInt(termISR.termedTCH) };
+                if ((parseInt(termISR.assignedTCH) - parseInt(otherTeachingAssignmentInfo.TCH) - parseInt(termISR.termedTCH)) < 0) {
+                    termedOverload = (parseInt(otherTeachingAssignmentInfo.TCH) + parseInt(termISR.termedTCH)) - parseInt(termISR.assignedTCH)
+                }
+                let updateInfo = { termedTCH: parseInt(otherTeachingAssignmentInfo.TCH) + parseInt(termISR.termedTCH), termedOverload: termedOverload };
                 updateInfo.timestamp = new Date();
-                let updateInfo2 = { currentTCH: parseInt(otherTeachingAssignmentInfo.TCH) + parseInt(termISR.termedTCH) };
+                let currentOverload = 0;
+                let partyISR = await partyISREntity.getPartyISRById(termISR.partyISRId);
+
+                if ((parseInt(partyISR.assignedTCH) - parseInt(partyISR.currentTCH) - parseInt(otherTeachingAssignmentInfo.TCH)) < 0) {
+                    currentOverload = (parseInt(partyISR.currentTCH) + parseInt(otherTeachingAssignmentInfo.TCH)) - parseInt(partyISR.assignedTCH);
+                }
+                let updateInfo2 = { currentTCH: parseInt(otherTeachingAssignmentInfo.TCH) + parseInt(termISR.termedTCH), currentOverload: currentOverload };
+                updateInfo2.lastUpdate = new Date();
+
+                try {
+                    await termedISREntity.updateTermedISR(termISR.termedISRId, updateInfo);
+                    await partyISREntity.updatePartyISR(termISR.partyISRId, updateInfo2);
+                    return true;
+                }
+                catch (Error) {
+                    throw Error;
+                }
+            }
+        }
+        catch (e) {
+            throw e;
+        }
+    },
+    async updateOtherTeachingAssignment(_id, otherTeachingAssignmentInfo) {
+        try {
+            let oldOtherTeachingAssignment = await otherTeachingAssignmentEntity.getOtherTeachingAssignmentBy_id(_id);
+            let oldTCH = oldOtherTeachingAssignment.TCH;
+            let status = await otherTeachingAssignmentEntity.updateOtherTeachingAssignment(_id, otherTeachingAssignmentInfo);
+
+
+            if (status) {
+
+
+                let termISR = await termedISREntity.getTermedISRById(otherTeachingAssignmentInfo.termedISRId);
+
+                let TCHdiff = parseInt(oldTCH) - parseInt(otherTeachingAssignmentInfo.TCH)
+                let newTermedISR = parseInt(termISR.termedTCH) - parseInt(TCHdiff);
+                let termedOverload = 0;
+
+                if ((parseInt(termISR.termedOverload) - parseInt(TCHdiff)) > 0) {
+                    termedOverload = (parseInt(termISR.termedOverload) - parseInt(TCHdiff));
+                }
+
+                let updateInfo = { termedTCH: newTermedISR, termedOverload: termedOverload };
+                updateInfo.timestamp = new Date();
+
+                let currentOverload = 0;
+                let partyISR = await partyISREntity.getPartyISRById(termISR.partyISRId);
+                let currentTCH = parseInt(partyISR.currentTCH) - TCHdiff;
+                if ((parseInt(partyISR.currentOverload) - parseInt(TCHdiff)) > 0) {
+                    currentOverload = (parseInt(partyISR.currentOverload) - parseInt(TCHdiff));
+                }
+                let updateInfo2 = { currentTCH: currentTCH, currentOverload: currentOverload };
+
                 updateInfo2.lastUpdate = new Date();
                 try {
                     await termedISREntity.updateTermedISR(termISR.termedISRId, updateInfo);
@@ -240,14 +305,68 @@ let exportedMethods = {
         try {
             let status = await releaseTimeEntity.createReleaseTime(releaseTimeInfo);
 
-            if (true) {
+            if (status) {
+                let termedOverload = 0;
                 let termISR = await this.getTermedISRByReleaseTimeId(releaseTimeInfo.releaseTimeId);
-                let updateInfo = { termedTCH: parseInt(releaseTimeInfo.TCH) + parseInt(termISR.termedTCH) };
+                if ((parseInt(termISR.assignedTCH) - parseInt(releaseTimeInfo.TCH) - parseInt(termISR.termedTCH)) < 0) {
+                    termedOverload = (parseInt(releaseTimeInfo.TCH) + parseInt(termISR.termedTCH)) - parseInt(termISR.assignedTCH)
+                }
+                let updateInfo = { termedTCH: parseInt(releaseTimeInfo.TCH) + parseInt(termISR.termedTCH), termedOverload: termedOverload };
                 updateInfo.timestamp = new Date();
-                let updateInfo2 = { currentTCH: parseInt(releaseTimeInfo.TCH) + parseInt(termISR.termedTCH) };
+                let currentOverload = 0;
+                let partyISR = await partyISREntity.getPartyISRById(termISR.partyISRId);
+
+                if ((parseInt(partyISR.assignedTCH) - parseInt(partyISR.currentTCH) - parseInt(releaseTimeInfo.TCH)) < 0) {
+                    currentOverload = (parseInt(partyISR.currentTCH) + parseInt(releaseTimeInfo.TCH)) - parseInt(partyISR.assignedTCH);
+                }
+                let updateInfo2 = { currentTCH: parseInt(releaseTimeInfo.TCH) + parseInt(termISR.termedTCH), currentOverload: currentOverload };
                 updateInfo2.lastUpdate = new Date();
+
                 try {
                     await termedISREntity.updateTermedISR(termISR.termedISRId, updateInfo);
+                    await partyISREntity.updatePartyISR(termISR.partyISRId, updateInfo2);
+                    return true;
+                }
+                catch (Error) {
+                    throw Error;
+                }
+            }
+        }
+        catch (e) {
+            throw e;
+        }
+    },
+    async updateReleaseTime(_id, releaseTimeInfo) {
+        try {
+            let oldReleaseTime = await releaseTimeEntity.getReleaseTimeBy_id(_id);
+            let oldTCH = oldReleaseTime.TCH;
+            let status = await releaseTimeEntity.updateReleaseTime(_id, releaseTimeInfo);
+
+            if (status) {
+
+                let termISR = await termedISREntity.getTermedISRById(releaseTimeInfo.termedISRId);
+                let TCHdiff = parseInt(oldTCH) - parseInt(releaseTimeInfo.TCH)
+                let newTermedISR = parseInt(termISR.termedTCH) - parseInt(TCHdiff);
+                let termedOverload = 0;
+
+                if ((parseInt(termISR.termedOverload) - parseInt(TCHdiff)) > 0) {
+                    termedOverload = (parseInt(termISR.termedOverload) - parseInt(TCHdiff));
+                }
+
+                let updateInfo = { termedTCH: newTermedISR, termedOverload: termedOverload };
+                updateInfo.timestamp = new Date();
+
+                let currentOverload = 0;
+                let partyISR = await partyISREntity.getPartyISRById(termISR.partyISRId);
+                let currentTCH = parseInt(partyISR.currentTCH) - TCHdiff;
+                if ((parseInt(partyISR.currentOverload) - parseInt(TCHdiff)) > 0) {
+                    currentOverload = (parseInt(partyISR.currentOverload) - parseInt(TCHdiff));
+                }
+                let updateInfo2 = { currentTCH: currentTCH, currentOverload: currentOverload };
+
+                updateInfo2.lastUpdate = new Date();
+                try {
+                   await termedISREntity.updateTermedISR(termISR.termedISRId, updateInfo);
                     await partyISREntity.updatePartyISR(termISR.partyISRId, updateInfo2);
                     return true;
                 }
@@ -263,7 +382,7 @@ let exportedMethods = {
     async updatePartyISR(partyISRId, partyISRInfo) {
 
         try {
-            let assignedTCH=partyISRInfo.contractualLoad;
+            let assignedTCH = partyISRInfo.contractualLoad;
             await partyISREntity.updatePartyISR(partyISRId, partyISRInfo);
         }
         catch (e) {
@@ -317,7 +436,7 @@ let exportedMethods = {
             let summer2ISR = await termedISREntity.getTermedISRById(partyISR.summer2ISR);
             let yISR = await termedISREntity.getTermedISRById(partyISR.yISR);
 
-            ISR = { partyISR: partyISR, fallISR: fallISR, springISR: springISR, summer1ISR: summer1ISR,summer2ISR: summer2ISR, yISR: yISR }
+            ISR = { partyISR: partyISR, fallISR: fallISR, springISR: springISR, summer1ISR: summer1ISR, summer2ISR: summer2ISR, yISR: yISR }
             return ISR;
         }
         catch (e) {

@@ -13,7 +13,7 @@ const partyISREntity = entities.partyISR;
 const courseScheduleEntity= entities.courseSchedule;
 const ISR = data.ISR;
 const courseTypeEntity = entities.courseType;
-const sectionTypeEntity = entities.sectionType;
+const releaseTimeEntity = entities.releaseTime;
 const assignmentTypeEntity = entities.assignmentType;
 const releaseTimeType = entities.releaseTimeType;
 const classTypeEntity = entities.classType;
@@ -326,7 +326,56 @@ router.get("/remove/releaseTime/:id", auth(), async (req, res) => {
         assignmentTypeId: assignmentId,
     })
 })
+router.post("/remove/releaseTime", auth(), async (req, res) => {
+    try {
+        let removeInfo = req.body;
+        let releaseTime_id = removeInfo.releaseTime;
+        if (releaseTime_id) {
+            let releaseTime = await releaseTimeEntity.getReleaseTimeBy_id(releaseTime_id);
+            let releaseTimeId = releaseTime.releaseTimeId;
+            let termedISR = await ISR.getTermedISRByReleaseTimeId(releaseTimeId);
+            let partyISR = await partyISREntity.getPartyISRById(termedISR.partyISRId);
 
+            let termedTCH = ((parseInt(termedISR.termedTCH) - parseInt(releaseTime.TCH)));
+            let termedOverload = ((parseInt(termedISR.termedOverload) - parseInt(releaseTime.TCH)));
+            if(termedOverload<0){
+                termedOverload=0;
+            }
+            let currentTCH = ((parseInt(partyISR.currentTCH) - parseInt(releaseTime.TCH)));
+            let currentOverload = ((parseInt(partyISR.currentOverload) - parseInt(releaseTime.TCH)));
+            if(currentOverload<0){
+                currentOverload=0;
+            }
+            let updateInfo = { termedTCH: termedTCH,termedOverload:termedOverload };
+            let updateInfo2 = { currentTCH: currentTCH,currentOverload:currentOverload};
+            await ISR.updateTermedISR(termedISR.termedISRId, updateInfo);
+            await ISR.updatePartyISR(termedISR.partyISRId, updateInfo2);
+            await releaseTimeEntity.deleteReleaseTimeBy_id(releaseTime_id);
+        }
+        else {
+            throw "Released Time Id Missing";
+        }
+    }
+    catch (error) {
+        console.log("Removing the release Time");
+        console.log(error);
+        res.send(error);
+    }
+})
+
+router.get("/edit/otherTeachingAssignment/:id", auth(), async (req, res) => {
+    try {
+        let otherTeachingAssignmentId = req.params.id;
+        let otherTeachingAssignment = await otherTeachingAssignmentEntity.getOtherTeachingAssignmentBy_id(otherTeachingAssignmentId);
+        res.render('modals/editOtherTeachingAssignment', {
+            layout: "modal",
+            otherTeachingAssignment: otherTeachingAssignment,
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
 //-------------Update Personal Info Modal------------------------------
 router.get("/update/personalInfo/:id", auth(), async (req, res) => {
 
@@ -614,19 +663,77 @@ router.post("/createOtherTeachingAssignment", auth(), async (req, res) => {
                 throw "no TCH  provided "
             if (!newOtherTeachingAssignmentInfo.assignmentType)
                 throw "no assignment Type  provided "
-
+            if (!newOtherTeachingAssignmentInfo.semHours)
+                throw "no sem Hours  provided "
+            if (!newOtherTeachingAssignmentInfo.enrollement)
+                throw "no enrollement  provided "
 
             let otherTeachingAssignmentId = newOtherTeachingAssignmentInfo.otherTeachingAssignmentId;
             let termedISR = await ISR.getTermedISRByOtherTeachingAssignmentId(otherTeachingAssignmentId);
             newOtherTeachingAssignmentInfo.partyISRId = termedISR.partyISRId;
             newOtherTeachingAssignmentInfo.termedISRId = termedISR.termedISRId;
+            newOtherTeachingAssignmentInfo.ssh=parseInt(newOtherTeachingAssignmentInfo.semHours)*parseInt(newOtherTeachingAssignmentInfo.enrollement);
+            
             try {
                 await ISR.createOtherTeachingAssignment(newOtherTeachingAssignmentInfo);
                 res.send("success");
             }
             catch (error) {
                 console.log(error)
-                throw "error in creating teaching Assignment";
+                throw "error in creating  other teaching Assignment";
+            }
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.send(error);
+    }
+});
+router.get("/edit/otherTeachingAssignment/:id", auth(), async (req, res) => {
+    try {
+        let _id = req.params.id;
+        let otherTeachingAssignment = await otherTeachingAssignmentEntity.getOtherTeachingAssignmentByOtherTeachingAssignmentId(_id)
+        res.render('modals/editTeachingAssignment', {
+            layout: "modal",
+            otherTeachingAssignment: otherTeachingAssignment,
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+router.post("/update/otherTeachingAssignment", auth(), async (req, res) => {
+    try {
+        let otherTeachingAssignmentInfo = (req.body);
+        if (!otherTeachingAssignmentInfo) {
+            throw "other teaching Assignment not provided"
+        }
+        else {
+            let otherTeachingAssignment = await otherTeachingAssignmentEntity.getOtherTeachingAssignmentBy_id(otherTeachingAssignmentInfo._id)
+            otherTeachingAssignmentInfo.assignmentType = otherTeachingAssignment.assignmentType;
+            otherTeachingAssignmentInfo.partyISRId = otherTeachingAssignment.partyISRId;
+            otherTeachingAssignmentInfo.termedISRId = otherTeachingAssignment.termedISRId;
+            otherTeachingAssignmentInfo.ssh = parseInt(otherTeachingAssignment.semHours) * parseInt(otherTeachingAssignment.enrollement);
+            if (!otherTeachingAssignmentInfo._id)
+                throw "no other teaching Assignment _id provided "
+            if (!otherTeachingAssignmentInfo.assignmentType)
+                throw "no other assignmentType provided "
+            if (!otherTeachingAssignmentInfo.TCH)
+                throw "no TCH  provided "
+            if (!otherTeachingAssignmentInfo.enrollement)
+                throw "no enrollement  provided "
+            if (!otherTeachingAssignmentInfo.semHours)
+                throw "no semHours provided "
+            if (!otherTeachingAssignmentInfo.ssh)
+                throw "no ssh provided "
+       
+            try {
+                await ISR.updateOtherTeachingAssignment(otherTeachingAssignmentInfo._id, otherTeachingAssignmentInfo);
+                res.send("success");
+            }
+            catch (error) {
+                console.log(error)
+                throw "error in updating teaching Assignment";
             }
         }
     }
@@ -640,16 +747,28 @@ router.post("/remove/otherTeachingAssignment", auth(), async (req, res) => {
         let removeInfo = req.body;
         let otherTeachingAssignment_id = removeInfo.otherTeachingAssignment;
         if (otherTeachingAssignment_id) {
-            //problem here NEED to resolve------------
+          
             let otherTeachingAssignment = await otherTeachingAssignmentEntity.getOtherTeachingAssignmentBy_id(otherTeachingAssignment_id);
             let otherTeachingAssignmentId = otherTeachingAssignment.otherTeachingAssignmentId;
             let termedISR = await ISR.getTermedISRByOtherTeachingAssignmentId(otherTeachingAssignmentId);
+            let partyISR = await partyISREntity.getPartyISRById(termedISR.partyISRId);  
+          
             let termedTCH = ((parseInt(termedISR.termedTCH) - parseInt(otherTeachingAssignment.TCH)));
-            let updateInfo = { termedTCH: termedTCH };
-            let updateInfo2 = { currentTCH: termedTCH };
+            let termedOverload = ((parseInt(termedISR.termedOverload) - parseInt(otherTeachingAssignment.TCH)));
+            if(termedOverload<0){
+                termedOverload=0;
+            }
+            let currentTCH = ((parseInt(partyISR.currentTCH) - parseInt(otherTeachingAssignment.TCH)));
+            let currentOverload = ((parseInt(partyISR.currentOverload) - parseInt(otherTeachingAssignment.TCH)));
+            if(currentOverload<0){
+                currentOverload=0;
+            }
+            let updateInfo = { termedTCH: termedTCH,termedOverload:termedOverload };
+            let updateInfo2 = { currentTCH: currentTCH,currentOverload:currentOverload};
+
             await ISR.updateTermedISR(termedISR.termedISRId, updateInfo);
             await ISR.updatePartyISR(termedISR.partyISRId, updateInfo2);
-            await otherTeachingAssignment.deleteTeachingAssignmentBy_id(otherTeachingAssignment_id);
+            await otherTeachingAssignmentEntity.deleteOtherTeachingAssignmentBy_id(otherTeachingAssignment_id);
         }
         else {
             throw "other teaching Assignment Id Missing";
@@ -704,6 +823,53 @@ router.post("/createReleaseTime", auth(), async (req, res) => {
             }
         }
     } catch (error) {
+        console.log(error);
+        res.send(error);
+    }
+});
+router.get("/edit/releaseTime/:id", auth(), async (req, res) => {
+    try {
+        let _id = req.params.id;
+        let releaseTime = await ISR.getReleaseTimeBy_id(_id);
+        res.render('modals/editReleaseTime', {
+            layout: "modal",
+            releaseTime: releaseTime,
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+router.post("/update/releaseTime", auth(), async (req, res) => {
+    try {
+        let releaseTimeInfo = (req.body);
+        if (!releaseTimeInfo) {
+            throw "released Time info not provided"
+        }
+        else {
+            let releaseTime = await releaseTimeEntity.getReleaseTimeBy_id(releaseTimeInfo._id)
+            releaseTimeInfo.releaseTimeType = releaseTime.releaseTimeType;
+            releaseTimeInfo.partyISRId = releaseTime.partyISRId;
+            releaseTimeInfo.termedISRId = releaseTime.termedISRId;
+       
+            if (!releaseTimeInfo._id)
+                throw "no release time  _id provided "
+            if (!releaseTimeInfo.releaseTimeType)
+                throw "no releaseTimeType provided "
+            if (!releaseTimeInfo.TCH)
+                throw "no TCH  provided "
+         
+            try {
+                await ISR.updateReleaseTime(releaseTimeInfo._id, releaseTimeInfo);
+                res.send("success");
+            }
+            catch (error) {
+                console.log(error)
+                throw "error in updating release Time ";
+            }
+        }
+    }
+    catch (error) {
         console.log(error);
         res.send(error);
     }

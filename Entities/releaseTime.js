@@ -9,6 +9,7 @@ let exportedMethods = {
         try {
             return releaseTime().then(releaseTimeCollection => {
                 let newReleaseTime = {
+                    _id:uuid(),
                     releaseTimeId: releaseTimeInfo.releaseTimeId,
                     releaseTimeType: releaseTimeInfo.releaseTimeType,
                     termedISRId: releaseTimeInfo.termedISRId,
@@ -30,23 +31,23 @@ let exportedMethods = {
         }
     },
     //------------------------------------Update ReleaseTime------------------------------------------------
-    async updateReleaseTime(releaseTimeId, updateReleaseTime) {
+    async updateReleaseTime(_id, updateReleaseTime) {
         try {
-            return this.getReleaseTimeById(releaseTimeId).then(currentReleaseTime => {
+            return this.getReleaseTimeBy_id(_id).then(currentReleaseTime => {
                 let updateCommand = {
                     $set: updateReleaseTime
                 };
                 return releaseTime().then(releaseTimeCollection => {
                     return releaseTimeCollection.updateOne({
-                        releaseTimeId: releaseTimeId
+                        _id: _id
                     }, updateCommand).then(() => {
-                        return this.getReleaseTimeById(releaseTimeId);;
+                        return true;;
                     });
                 });
             });
         }
         catch (err) {
-            throw `could not update faculty type ${err}`
+            throw `could not update release time  ${err}`
         }
     },
     async updateReleaseTimeByTermedISRId(termedISRId, updateReleaseTime) {
@@ -70,12 +71,23 @@ let exportedMethods = {
     },
     //-----------------------------------------Delete ReleaseTime----------------------------------------------
     async deleteReleaseTime(releaseTimeId) {
-        return user().then(releaseTimeCollection => {
+        return releaseTime().then(releaseTimeCollection => {
             return releaseTimeCollection.removeOne({
                 releaseTimeId: releaseTimeId
             }).then(deletionInfo => {
                 if (deletionInfo.deletedCount === 0) {
                     throw `Could not delete releaseTimeId with id of ${releaseTimeId}`;
+                }
+            });
+        });
+    },
+    async deleteReleaseTimeBy_id(_id) {
+        return releaseTime().then(releaseTimeCollection => {
+            return releaseTimeCollection.removeOne({
+                _id: _id
+            }).then(deletionInfo => {
+                if (deletionInfo.deletedCount === 0) {
+                    throw `Could not delete releaseTimeId with id of ${_id}`;
                 }
             });
         });
