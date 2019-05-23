@@ -738,25 +738,64 @@ $('form[name="editAssignmentAjaxForm"]').on('submit', function (e) {
 });
 $('form[name="facultyAjaxForm"]').on('submit', function (e) {
     event.preventDefault();
-    var url = $('form[name="facultyAjaxForm"]').attr('data-action');
-    var info = $('form[name="facultyAjaxForm"]').serialize();
-    $.ajax({
-        type: "post",
-        url: url,
-        data: info,
-        contentType: "application/x-www-form-urlencoded",
-        success: function (responseData, textStatus, jqXHR) {
-            if (responseData == "success") {
-                $('.modal.in').modal('hide');
-                location.reload();
+   try{ 
+        var firstName=$("#firstName").val();
+        var lastName=$("#lastName").val();
+
+        var school=$("#schoolTypeId").prop('selectedIndex');
+        var department=$("#departmentTypeId").prop('selectedIndex');
+        var designation=$("#designationTypeId").prop('selectedIndex');
+        var contract=$("#contractTypeId").prop('selectedIndex');
+        var fallLoad=parseInt($("#fallLoad").val()); 
+        var springLoad=parseInt($("#springLoad").val()); 
+        var summer1Load=parseInt($("#summer1Load").val()); 
+        var summer2Load=parseInt($("#summer2Load").val()); 
+        var contractualLoad=parseInt($("#contractualLoad").val()); 
+   
+        if(!firstName)
+            throw "Enter first Name";
+        if(!lastName)
+            throw "Enter last Name";
+        if(school==0)
+            throw "Select School";
+        if(department==0)
+            throw "select department";
+        if(designation==0)
+            throw " select Rank";
+        if(contract==0)
+            throw "Select Contract Type";
+        if(contractualLoad==0)
+            throw "contractual Load can not be zero";
+       
+        if(contractualLoad!=(fallLoad+springLoad+summer1Load+summer2Load))
+            throw "sum of contractual load and term Load is not equal"
+        var url = $('form[name="facultyAjaxForm"]').attr('data-action');
+        var info = $('form[name="facultyAjaxForm"]').serialize();
+    
+        $.ajax({
+            type: "post",
+            url: url,
+            data: info,
+            contentType: "application/x-www-form-urlencoded",
+            success: function (responseData, textStatus, jqXHR) {
+                if (responseData == "success") {
+                    $('.modal.in').modal('hide');
+                    location.reload();
+                }
+                else {
+                
+                    $("#alertMsg").html(responseData);
+                    $(".modal-body").load();
+                    throw responseData;
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+                alert(errorThrown)
             }
-            else {
-                $("#alertMsg").html(responseData);
-                $(".modal-body").load();
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(errorThrown);
-        }
-    })
+        })
+    }
+    catch(error){
+        alert(error)
+    }
 });

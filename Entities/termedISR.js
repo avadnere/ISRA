@@ -203,6 +203,21 @@ let exportedMethods = {
             throw `could not get termed ISR with release time Id ${err}`;
         }
     },
+    async getTermedISRByAttachementId(attachmentId) {
+        try {
+            return termedISR().then(termedISRCollection => {
+                return termedISRCollection.findOne({
+                    attachmentId:attachmentId,
+                }).then(termedISR => {
+                    if (!termedISR) return false;
+                    else return termedISR;
+                });
+            });
+        }
+        catch (err) {
+            throw `could not get termed ISR with attachement  Id ${err}`;
+        }
+    },
      //------------------------------------Get All TermedISR----------------------------------------------------------
 
     async getAllTermedISR() {

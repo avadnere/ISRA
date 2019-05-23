@@ -1,16 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const entities = require("../Entities");
+const fs = require('fs');
+const formidable = require('formidable');
+const path = require('path');
 const userLoginSession = entities.userLoginSession;
 const roleEntity = entities.roleType;
 const designationEntity = entities.designationType;
 const schoolTypeEntity = entities.schoolType;
 const facultyTypeEntity = entities.facultyType;
 const data = require("../data");
+const attachementEntity = entities.attachement;
+
 const user = data.user;
 const termedISREntity = entities.termedISR;
 const partyISREntity = entities.partyISR;
-const courseScheduleEntity= entities.courseSchedule;
+const courseScheduleEntity = entities.courseSchedule;
 const ISR = data.ISR;
 const courseTypeEntity = entities.courseType;
 const releaseTimeEntity = entities.releaseTime;
@@ -53,7 +58,13 @@ const auth = function () {
         }
     };
 }
-
+function getByteArray(filePath) {
+    let fileData = fs.readFileSync(filePath).toString('hex');
+    let result = []
+    for (let i = 0; i < fileData.length; i += 2)
+        result.push('0x' + fileData[i] + '' + fileData[i + 1])
+    return result;
+}
 //------------------Remove User Modal------------------
 router.get("/removeUser/:id", auth(), async (req, res) => {
     try {
@@ -338,16 +349,16 @@ router.post("/remove/releaseTime", auth(), async (req, res) => {
 
             let termedTCH = ((parseInt(termedISR.termedTCH) - parseInt(releaseTime.TCH)));
             let termedOverload = ((parseInt(termedISR.termedOverload) - parseInt(releaseTime.TCH)));
-            if(termedOverload<0){
-                termedOverload=0;
+            if (termedOverload < 0) {
+                termedOverload = 0;
             }
             let currentTCH = ((parseInt(partyISR.currentTCH) - parseInt(releaseTime.TCH)));
             let currentOverload = ((parseInt(partyISR.currentOverload) - parseInt(releaseTime.TCH)));
-            if(currentOverload<0){
-                currentOverload=0;
+            if (currentOverload < 0) {
+                currentOverload = 0;
             }
-            let updateInfo = { termedTCH: termedTCH,termedOverload:termedOverload };
-            let updateInfo2 = { currentTCH: currentTCH,currentOverload:currentOverload};
+            let updateInfo = { termedTCH: termedTCH, termedOverload: termedOverload };
+            let updateInfo2 = { currentTCH: currentTCH, currentOverload: currentOverload };
             await ISR.updateTermedISR(termedISR.termedISRId, updateInfo);
             await ISR.updatePartyISR(termedISR.partyISRId, updateInfo2);
             await releaseTimeEntity.deleteReleaseTimeBy_id(releaseTime_id);
@@ -423,19 +434,19 @@ router.post("/update/personalInfo/:id", auth(), async function (req, res) {
     }
 });
 //-------------Create New Teaching Assignment Modal------------------------------
-router.get("/getSection/:id",auth(),async(req,res)=>{
-    let courseTypeId=req.params.id;
-    let courses=await courseScheduleEntity.getScheduleByCourseTypeId(courseTypeId);
+router.get("/getSection/:id", auth(), async (req, res) => {
+    let courseTypeId = req.params.id;
+    let courses = await courseScheduleEntity.getScheduleByCourseTypeId(courseTypeId);
     let htmlOption = "<option selected>Choose</option>";
     for (let i = 0; i < courses.length; i++) {
         htmlOption = htmlOption + "<option value='" + courses[i].sectionTypeId + "'>" + courses[i].sectionTypeId + "</option>";
-    }; 
+    };
     res.send(htmlOption)
 });
-router.get("/getSchedule/:id",auth(),async(req,res)=>{
-    let scheduleTypeId=req.params.id;
-    let schedule=await courseScheduleEntity.getCourseScheduleById(scheduleTypeId);
-    let htmlOption="<td>"+schedule.courseTypeId+"</td><td>"+schedule.sectionTypeId+"</td><td>"+schedule.schedule+"</td><td>"+schedule.time+"</td><td>"+schedule.location+"</td>";
+router.get("/getSchedule/:id", auth(), async (req, res) => {
+    let scheduleTypeId = req.params.id;
+    let schedule = await courseScheduleEntity.getCourseScheduleById(scheduleTypeId);
+    let htmlOption = "<td>" + schedule.courseTypeId + "</td><td>" + schedule.sectionTypeId + "</td><td>" + schedule.schedule + "</td><td>" + schedule.time + "</td><td>" + schedule.location + "</td>";
     res.send(htmlOption);
 });
 
@@ -444,7 +455,7 @@ router.get("/createTeachingAssignment/:id", auth(), async (req, res) => {
         let teachingAssignmentId = req.params.id;
         let courseList = await courseTypeEntity.getAllCourseType();
         let classType = await classTypeEntity.getAllClassType();
-       
+
         res.render('modals/teachingAssignment', {
             layout: "modal",
             teachingAssignmentId: teachingAssignmentId,
@@ -486,15 +497,15 @@ router.post("/createTeachingAssignment", auth(), async (req, res) => {
 
             let teachingAssignmentId = newTeachingAssignmentInfo.teachingAssignmentId;
             let termedISR = await ISR.getTermedISRByTeachingAssignmentId(teachingAssignmentId);
-            let courseScheduleId=newTeachingAssignmentInfo.courseTypeId+"-"+newTeachingAssignmentInfo.sectionTypeId;
-            let scheduleCourse=await courseScheduleEntity.getCourseScheduleById(courseScheduleId);
-            let courseScheduledbId=(scheduleCourse.courseScheduleId);
-            if(!courseScheduledbId){
+            let courseScheduleId = newTeachingAssignmentInfo.courseTypeId + "-" + newTeachingAssignmentInfo.sectionTypeId;
+            let scheduleCourse = await courseScheduleEntity.getCourseScheduleById(courseScheduleId);
+            let courseScheduledbId = (scheduleCourse.courseScheduleId);
+            if (!courseScheduledbId) {
                 throw "No course with this section";
             }
             newTeachingAssignmentInfo.partyISRId = termedISR.partyISRId;
             newTeachingAssignmentInfo.termedISRId = termedISR.termedISRId;
-            newTeachingAssignmentInfo.courseScheduleId=courseScheduleId;
+            newTeachingAssignmentInfo.courseScheduleId = courseScheduleId;
 
             try {
                 await ISR.createTeachingAssignment(newTeachingAssignmentInfo);
@@ -599,16 +610,16 @@ router.post("/remove/teachingAssignment", auth(), async (req, res) => {
 
             let termedTCH = ((parseInt(termedISR.termedTCH) - parseInt(teachingAssignment.TCH)));
             let termedOverload = ((parseInt(termedISR.termedOverload) - parseInt(teachingAssignment.TCH)));
-            if(termedOverload<0){
-                termedOverload=0;
+            if (termedOverload < 0) {
+                termedOverload = 0;
             }
             let currentTCH = ((parseInt(partyISR.currentTCH) - parseInt(teachingAssignment.TCH)));
             let currentOverload = ((parseInt(partyISR.currentOverload) - parseInt(teachingAssignment.TCH)));
-            if(currentOverload<0){
-                currentOverload=0;
+            if (currentOverload < 0) {
+                currentOverload = 0;
             }
-            let updateInfo = { termedTCH: termedTCH,termedOverload:termedOverload };
-            let updateInfo2 = { currentTCH: currentTCH,currentOverload:currentOverload};
+            let updateInfo = { termedTCH: termedTCH, termedOverload: termedOverload };
+            let updateInfo2 = { currentTCH: currentTCH, currentOverload: currentOverload };
             await ISR.updateTermedISR(termedISR.termedISRId, updateInfo);
             await ISR.updatePartyISR(termedISR.partyISRId, updateInfo2);
             await teachingAssignmentEntity.deleteTeachingAssignmentBy_id(teachingAssignment_id);
@@ -626,12 +637,12 @@ router.post("/remove/teachingAssignment", auth(), async (req, res) => {
 router.get("/schedule/teachingAssignment/:id", auth(), async (req, res) => {
     let _id = req.params.id;
     let teachingAssignment = await teachingAssignmentEntity.getTeachingAssignmentBy_id(_id)
-    let courseSchedule=await courseScheduleEntity.getCourseScheduleById(teachingAssignment.courseScheduleId)
+    let courseSchedule = await courseScheduleEntity.getCourseScheduleById(teachingAssignment.courseScheduleId)
     res.render("modals/courseSchedule", {
         layout: "modal",
-        courseSchedule:courseSchedule,
+        courseSchedule: courseSchedule,
     })
-    
+
 })
 //-------------Create Other Teaching Assignment Modal------------------------------
 router.get("/createOtherTeachingAssignment/:id", auth(), async (req, res) => {
@@ -672,8 +683,8 @@ router.post("/createOtherTeachingAssignment", auth(), async (req, res) => {
             let termedISR = await ISR.getTermedISRByOtherTeachingAssignmentId(otherTeachingAssignmentId);
             newOtherTeachingAssignmentInfo.partyISRId = termedISR.partyISRId;
             newOtherTeachingAssignmentInfo.termedISRId = termedISR.termedISRId;
-            newOtherTeachingAssignmentInfo.ssh=parseInt(newOtherTeachingAssignmentInfo.semHours)*parseInt(newOtherTeachingAssignmentInfo.enrollement);
-            
+            newOtherTeachingAssignmentInfo.ssh = parseInt(newOtherTeachingAssignmentInfo.semHours) * parseInt(newOtherTeachingAssignmentInfo.enrollement);
+
             try {
                 await ISR.createOtherTeachingAssignment(newOtherTeachingAssignmentInfo);
                 res.send("success");
@@ -726,7 +737,7 @@ router.post("/update/otherTeachingAssignment", auth(), async (req, res) => {
                 throw "no semHours provided "
             if (!otherTeachingAssignmentInfo.ssh)
                 throw "no ssh provided "
-       
+
             try {
                 await ISR.updateOtherTeachingAssignment(otherTeachingAssignmentInfo._id, otherTeachingAssignmentInfo);
                 res.send("success");
@@ -747,24 +758,24 @@ router.post("/remove/otherTeachingAssignment", auth(), async (req, res) => {
         let removeInfo = req.body;
         let otherTeachingAssignment_id = removeInfo.otherTeachingAssignment;
         if (otherTeachingAssignment_id) {
-          
+
             let otherTeachingAssignment = await otherTeachingAssignmentEntity.getOtherTeachingAssignmentBy_id(otherTeachingAssignment_id);
             let otherTeachingAssignmentId = otherTeachingAssignment.otherTeachingAssignmentId;
             let termedISR = await ISR.getTermedISRByOtherTeachingAssignmentId(otherTeachingAssignmentId);
-            let partyISR = await partyISREntity.getPartyISRById(termedISR.partyISRId);  
-          
+            let partyISR = await partyISREntity.getPartyISRById(termedISR.partyISRId);
+
             let termedTCH = ((parseInt(termedISR.termedTCH) - parseInt(otherTeachingAssignment.TCH)));
             let termedOverload = ((parseInt(termedISR.termedOverload) - parseInt(otherTeachingAssignment.TCH)));
-            if(termedOverload<0){
-                termedOverload=0;
+            if (termedOverload < 0) {
+                termedOverload = 0;
             }
             let currentTCH = ((parseInt(partyISR.currentTCH) - parseInt(otherTeachingAssignment.TCH)));
             let currentOverload = ((parseInt(partyISR.currentOverload) - parseInt(otherTeachingAssignment.TCH)));
-            if(currentOverload<0){
-                currentOverload=0;
+            if (currentOverload < 0) {
+                currentOverload = 0;
             }
-            let updateInfo = { termedTCH: termedTCH,termedOverload:termedOverload };
-            let updateInfo2 = { currentTCH: currentTCH,currentOverload:currentOverload};
+            let updateInfo = { termedTCH: termedTCH, termedOverload: termedOverload };
+            let updateInfo2 = { currentTCH: currentTCH, currentOverload: currentOverload };
 
             await ISR.updateTermedISR(termedISR.termedISRId, updateInfo);
             await ISR.updatePartyISR(termedISR.partyISRId, updateInfo2);
@@ -851,14 +862,14 @@ router.post("/update/releaseTime", auth(), async (req, res) => {
             releaseTimeInfo.releaseTimeType = releaseTime.releaseTimeType;
             releaseTimeInfo.partyISRId = releaseTime.partyISRId;
             releaseTimeInfo.termedISRId = releaseTime.termedISRId;
-       
+
             if (!releaseTimeInfo._id)
                 throw "no release time  _id provided "
             if (!releaseTimeInfo.releaseTimeType)
                 throw "no releaseTimeType provided "
             if (!releaseTimeInfo.TCH)
                 throw "no TCH  provided "
-         
+
             try {
                 await ISR.updateReleaseTime(releaseTimeInfo._id, releaseTimeInfo);
                 res.send("success");
@@ -901,7 +912,7 @@ router.get("/editTeachingAssignment/:id", auth(), async (req, res) => {
         console.log(error);
     }
 });
-//-------------Add Attachement Modal------------------------------
+//-------------Add Attachment Modal------------------------------
 router.get("/addAttachment/:id", auth(), async (req, res) => {
     try {
         let attachmentId = req.params.id;
@@ -918,20 +929,12 @@ router.get("/addAttachment/:id", auth(), async (req, res) => {
 //-------------Create New ISR  Modal------------------------------
 router.get("/createISR", auth(), async (req, res) => {
     try {
-        // let partyId = req.params.id;
-        // let userDetail = await user.getUserByPartyId(partyId);
-        // let username = userDetail.person.firstName + " " + userDetail.person.lastName
-        // let personList = await person.getAllPerson();
-        // partyId = userDetail.person.partyId;
-        // let removeIndex = personList.map(function (item) { return item.partyId; }).indexOf(partyId);
-        // personList.splice(removeIndex, 1);
-        // let ISRInfo = { username: username, userList: personList, partyId: partyId }
         let allPartyInfo = await faculty.getAllFacultyInfo();
         let facultyDetailList = [];
         for (let i = 0; i < allPartyInfo.length; i++) {
-            let bootstrapClass="hide";
-            if(allPartyInfo[i].partyFaculty.contractualLoad!=(await faculty.getContractualLoad(allPartyInfo[i].partyFaculty.facultyTypeId)))
-                bootstrapClass="";
+            let bootstrapClass = "hide";
+            if (allPartyInfo[i].partyFaculty.contractualLoad != (await faculty.getContractualLoad(allPartyInfo[i].partyFaculty.facultyTypeId)))
+                bootstrapClass = "";
             facultyListFilterAttribute = {
                 name: allPartyInfo[i].person.firstName + " " + allPartyInfo[i].person.lastName,
                 partyId: allPartyInfo[i].party._id,
@@ -939,7 +942,7 @@ router.get("/createISR", auth(), async (req, res) => {
                 designationTypeId: allPartyInfo[i].partyDesignation.designationTypeId,
                 facultyTypeId: allPartyInfo[i].partyFaculty.facultyTypeId,
                 contractualLoad: allPartyInfo[i].partyFaculty.contractualLoad,
-                bootstrapClass:bootstrapClass
+                bootstrapClass: bootstrapClass
             }
             facultyDetailList.push(facultyListFilterAttribute)
 
@@ -961,11 +964,11 @@ router.get("/getUserDetails/:id", auth(), async (req, res) => {
                 let facultyInfo = await faculty.getFacultyByPartyId(partyId)
                 let contractualLoad = facultyInfo.partyFaculty.contractualLoad;
                 let defaultContractualLoad = await faculty.getContractualLoad(facultyInfo.partyFaculty.facultyTypeId)
-                let visibility=true;
+                let visibility = true;
                 if (contractualLoad == defaultContractualLoad) {
                     visibility = false;
                 }
-              
+
                 let facultyDetailList = {
                     partyId: partyId,
                     departmentTypeId: facultyInfo.partyDepartmentSchool.departmentTypeId,
@@ -976,7 +979,7 @@ router.get("/getUserDetails/:id", auth(), async (req, res) => {
                     springLoad: facultyInfo.partyFaculty.springLoad,
                     summer1Load: facultyInfo.partyFaculty.summer1Load,
                     summer2Load: facultyInfo.partyFaculty.summer2Load,
-                    visibility:visibility,
+                    visibility: visibility,
                 }
                 res.send(facultyDetailList)
             }
@@ -1106,11 +1109,11 @@ router.get("/editISR/:id", auth(), async (req, res) => {
                 facultyTypeId: facultyInfo.partyFaculty.facultyTypeId,
                 contractualLoad: contractualLoad,
                 session: session,
-                fallLoad:fallISR.assignedTCH,
-                springLoad:springISR.assignedTCH,
-                summer1Load:summer1ISR.assignedTCH,
-                summer2Load:summer2ISR.assignedTCH,
-                visibility:visibility,
+                fallLoad: fallISR.assignedTCH,
+                springLoad: springISR.assignedTCH,
+                summer1Load: summer1ISR.assignedTCH,
+                summer2Load: summer2ISR.assignedTCH,
+                visibility: visibility,
 
             }
 
@@ -1131,33 +1134,33 @@ router.post("/editISR", auth(), async (req, res) => {
     try {
         let partyInfo = req.body;
         let partyISRId = partyInfo.partyISRId;
-        let assignedTCH=partyInfo.contractualLoad;
+        let assignedTCH = partyInfo.contractualLoad;
         if (partyISRId) {
-            let updateFall={
-                assignedTCH:partyInfo.fallLoad
+            let updateFall = {
+                assignedTCH: partyInfo.fallLoad
             };
-            let updateSpring={
-                assignedTCH:partyInfo.springLoad
+            let updateSpring = {
+                assignedTCH: partyInfo.springLoad
             };
-            let updateSummer1={
-                assignedTCH:partyInfo.summer1Load
+            let updateSummer1 = {
+                assignedTCH: partyInfo.summer1Load
             };
-            let updateSummer2={
-                assignedTCH:partyInfo.summer2Load
+            let updateSummer2 = {
+                assignedTCH: partyInfo.summer2Load
             };
-           
+
             delete partyInfo.contractualLoad;
             delete partyInfo.fallLoad;
             delete partyInfo.springLoad;
             delete partyInfo.summer1Load;
             delete partyInfo.summer2Load;
-            
-            partyInfo["assignedTCH"]=assignedTCH;
-            let isr=await partyISREntity.getPartyISRById(partyISRId);
-            await termedISREntity.updateTermedISR(isr.fallISR,updateFall)
-            await termedISREntity.updateTermedISR(isr.springISR,updateSpring)
-            await termedISREntity.updateTermedISR(isr.summer1ISR,updateSummer1)
-            await termedISREntity.updateTermedISR(isr.summer2ISR,updateSummer2)
+
+            partyInfo["assignedTCH"] = assignedTCH;
+            let isr = await partyISREntity.getPartyISRById(partyISRId);
+            await termedISREntity.updateTermedISR(isr.fallISR, updateFall)
+            await termedISREntity.updateTermedISR(isr.springISR, updateSpring)
+            await termedISREntity.updateTermedISR(isr.summer1ISR, updateSummer1)
+            await termedISREntity.updateTermedISR(isr.summer2ISR, updateSummer2)
 
             await ISR.updatePartyISR(partyISRId, partyInfo);
             res.send("success");
@@ -1408,13 +1411,13 @@ router.post("/removeFaculty", auth(), async (req, res) => {
         console.log("COMING");
         let partyId = info.removeId;
         if (partyId) {
-            let isr=await ISR.getAllISR(partyId);
-            for(i=0;i<isr.length;i++){
+            let isr = await ISR.getAllISR(partyId);
+            for (i = 0; i < isr.length; i++) {
                 await ISR.deletePartyISRId(isr[i].partyISRId);
             }
-           
+
             await faculty.deleteFaculty(partyId);
-           
+
 
             res.send("success");
 

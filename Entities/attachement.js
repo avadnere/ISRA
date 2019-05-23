@@ -7,10 +7,11 @@ let exportedMethods = {
     //------------------------------------create Attachement-----------------------------------------
     async createAttachement(attachementInfo) {
        try{
-        return attachement().then(attachementCollection => {
+           return attachement().then(attachementCollection => {
             let newAttachement = {
+                _id:uuid(),
                 attachementId:attachementInfo.attachementId,
-                attachementName:attachementInfo.attachementName,
+                attachementTitle:attachementInfo.attachementTitle,
                 description:attachementInfo.description,
                 termedISRId:attachementInfo.termedISRId,
                 partyISRId:attachementInfo.partyISRId,
@@ -19,8 +20,8 @@ let exportedMethods = {
             return attachementCollection
                 .insertOne(newAttachement)
                 .then(newInsertInformation => {
-                   let attachementId=newInsertInformation.insertedId;
-                   return getAttachementById(attachementId);
+                   let _id=newInsertInformation.insertedId;
+                   return this.getAttachementBy_id(_id);
                 })
         });
        }
@@ -29,17 +30,17 @@ let exportedMethods = {
        }
     },
     //------------------------------------Update Attachement------------------------------------------------
-    async updateAttachement(attachementId, updateAttachement) {
+    async updateAttachement(_id, updateAttachement) {
         try{
-                return this.getAttachementById(attachementId).then(currentAttachement => {
+                return this.getAttachementById(__id).then(currentAttachement => {
                 let updateCommand = {
                     $set: updateAttachement
                 };
                 return attachement().then(attachementCollection => {
                     return attachementCollection.updateOne({
-                        attachementId: attachementId
+                        _id: _id
                     }, updateCommand).then(() => {
-                        return this.getAttachementById(attachementId);;
+                        return this.getAttachementBy_id(_id);;
                     });
                 });
             });
@@ -88,6 +89,21 @@ let exportedMethods = {
             return attachement().then(attachementCollection => {
                 return attachementCollection.findOne({
                     attachementId: attachementId
+                }).then(attachement => {
+                    if (!attachement) return false;
+                    else return attachement;
+                });
+            });      
+        }
+        catch(err){
+            throw `could not get attachement with Id ${err}`;
+        } 
+    },
+    async getAttachementBy_id(_id) {
+        try{
+            return attachement().then(attachementCollection => {
+                return attachementCollection.findOne({
+                    _id: _id
                 }).then(attachement => {
                     if (!attachement) return false;
                     else return attachement;

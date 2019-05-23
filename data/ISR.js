@@ -136,6 +136,29 @@ let exportedMethods = {
             throw e;
         }
     },
+    async getTermedISRByAttachementId(attachementId) {
+        try {
+            return await termedISREntity.getTermedISRByAttachementId(attachementId);
+        }
+        catch (e) {
+            throw e;
+        }
+    },
+    async createAttachement(attachmentInfo) {
+        try {
+            let status = await attachementEntity.createAttachement(attachmentInfo);
+
+            if (!status) {
+                throw "unable to add attachment"
+            }
+            else{
+                return status;
+            }
+        }
+        catch (e) {
+            throw e;
+        }
+    },
     async createTeachingAssignment(teachingAssignmentInfo) {
         try {
             let status = await teachingAssignmentEntity.createTeachingAssignment(teachingAssignmentInfo);

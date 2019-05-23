@@ -42,6 +42,7 @@
             <div class="form-group">
                 <label for="departmentTypeId">Department</label>
                 <select class="form-control" id="departmentTypeId" name="departmentTypeId">
+                     <option selected>Choose...</option>
                     <option selected>{{facultyInfo.departmentTypeId}}</option>
                 </select>
             </div>
@@ -51,6 +52,7 @@
                     <div class="form-group">
                         <label for="designationTypeId">Rank</label>
                         <select class="form-control" id="designationTypeId" name="designationTypeId">
+                             <option selected>Choose...</option>
                              {{#selected facultyInfo.designationTypeId}}
                             {{#each designationTypeList}}
                             <option value="{{this._id}}">{{this._id}}</option>

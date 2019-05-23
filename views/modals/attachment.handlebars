@@ -1,4 +1,5 @@
-<form>
+<form action="/modals/addAttachment" enctype="multipart/form-data" id="addAttachment" method="POST"
+    name="addAttachment" >
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Add Attachments</h4>
@@ -6,8 +7,8 @@
     <div class="modal-body">
 
         <div class="form-group">
-            <label for="attachement-title">Attachement Title</label>
-            <input type="text" class="form-control" id="attachement-title" placeholder="Attachement Title">
+            <label for="attachement-title">Attachment Title</label>
+            <input type="text" class="form-control" id="attachement-title" name="attachementTitle" placeholder="Attachement Title">
         </div>
 
         <div class="form-group">
@@ -17,13 +18,15 @@
 
 
         <div class="form-group attachement">
-            <label for="attachement-file">Attachement</label>
-            <input type="file" id="attachementfile">
+            <label for="attachement-file">Attachment</label>
+            <input type="file" name="attachement" id="attachementfile">
         </div>
+         <input type="hidden" name="attachementId" value="{{attachmentId}}" id="attachementfile">
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-default btn-success" data-success="modal">Add</button>
+        <button type="submit" class="btn btn-default btn-success" >Add</button>
         <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Close</button>
     </div>
 </form>
+<script src="../../public/js/script.js"></script>
